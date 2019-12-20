@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.ishang.pojo.Purchase" table="Purchase">
+  <id name="Bid" type="int">
+   <column name="Bid"/>
+   <generator class="assigned"/>
+  </id>
+  <property name="Pid" type="int">
+   <column name="Pid"/>
+  </property>
+  <property name="Bnum" type="int">
+   <column name="Bnum"/>
+  </property>
+  <property name="Pdate" type="java.util.Date">
+   <column name="Pdate"/>
+  </property>
+  <property name="Buprice" type="float">
+   <column name="Buprice"/>
+  </property>
+   <property name="Btprice" type="float">
+   <column name="Btprice"/>
+  </property>
+  <property name="Pagent" type="java.lang.String">
+   <column name="Pagent"/>
+  </property>
+ </class>
+</hibernate-mapping>

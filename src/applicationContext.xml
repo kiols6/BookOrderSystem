@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 定义数据源 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://106.13.185.246:3306/db_booksystem?useUnicode=true&amp;characterEncoding=UTF-8</value>
+		</property>
+		
+		<property name="username" value="test"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+	
+	<!-- 定义SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!-- 数据源 -->
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<!-- 配置数据库的方言 不同的数据库，在Sql语句的设计上是存在差异的 Hibernate就相当于一个翻译，配置“方言”选项，就是告诉Hibernate它要说哪里的方言。 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/ishang/pojo/User.hbm.xml</value>
+				<value>com/ishang/pojo/Book.hbm.xml</value>
+				<value>/com/ishang/pojo/Demand.hbm.xml</value>
+				<value>/com/ishang/pojo/Finance.hbm.xml</value>
+				<value>/com/ishang/pojo/OrderTB.hbm.xml</value>
+				<value>/com/ishang/pojo/Purchase.hbm.xml</value>
+				<value>/com/ishang/pojo/Receipt.hbm.xml</value>
+				<value>/com/ishang/pojo/Store.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 定义hibernateTemplate模板 -->
+	<bean id="hibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"></ref>
+		</property>
+	</bean>
+	
+	<!-- userDao层配置 -->
+	<bean id="userDao" class="com.ishang.dao.UserDaoImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate" />
+		</property>
+	</bean>
+	<bean id="userService" class="com.ishang.service.LoginCheck">
+		<property name="dao" ref="userDao"></property>
+	</bean>
+	<bean id="registerValid" class="com.ishang.service.RegisterValid">
+		<property name="dao" ref="userDao"></property>
+	</bean>
+	<bean id="updateService" class="com.ishang.service.UpdateInfo">
+		<property name="dao" ref="userDao"></property>
+	</bean>
+	<bean id="userAction" class="com.ishang.controller.UserAction">
+	<!-- 
+		service映射登录检查
+		register映射注册检查
+		update映射更新检查
+	 -->
+		<property name="service" ref="userService"></property>
+		<property name="register" ref="registerValid"></property>
+		<property name="update" ref="updateService"></property>
+	</bean>
+	
+	<!-- bookDao层配置 -->
+	<bean id="bookDao" class="com.ishang.dao.BookDaoImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate" />
+		</property>
+	</bean>
+	<bean id="bookInsert" class="com.ishang.service.BookInsert">
+		<property name="dao" ref="bookDao"></property>
+	</bean>
+    <bean id="bookQueryAll" class="com.ishang.service.BookShopShow">
+        <property name="sessionFactory">
+             <ref bean="sessionFactory"></ref>
+        </property>
+    </bean>
+    <bean id="bookDelete" class="com.ishang.service.BookDelete">
+    	<property name="dao" ref="bookDao"></property>
+    </bean>
+	<bean id='bookAction' class="com.ishang.controller.BookAction">
+		<!-- 
+		bookInsert映射新增图书
+		book_service映射json输出全部图书信息
+		bookdelete映射下架图书
+		 -->
+		<property name="insert" ref="bookInsert"></property>
+		<property name="bss" ref="bookQueryAll"></property>
+		<property name="delete" ref="bookDelete"></property>
+	</bean>
+	
+	
+    
+    <!-- orderDao层配置 -->
+    <bean id='orderDao' class="com.ishang.dao.OrderDaoImpl">
+    	<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate" />
+		</property>
+    </bean>
+    <bean id="OrderQueryAll" class="com.ishang.service.OrderQuery">
+        <property name="sessionFactory">
+             <ref bean="sessionFactory"></ref>
+        </property>
+    </bean>
+    <bean id="OrderGenerate" class="com.ishang.service.OrderGenerate">
+    	<property name="dao" ref="orderDao"></property>
+    </bean>
+    
+    <bean id="orderAction" class="com.ishang.controller.OrderAction">
+    	<property name="generateOrder" ref="OrderGenerate"></property>
+    	<property name="odq" ref="OrderQueryAll"></property>
+    </bean>
+</beans>

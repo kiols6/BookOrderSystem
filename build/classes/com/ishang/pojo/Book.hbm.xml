@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.ishang.pojo.Book" table="Book">
+  <id name="Bid" type="int">
+   <column name="Bid"/>
+   <generator class="assigned"/>
+  </id>
+  <property name="Bname" type="java.lang.String">
+   <column name="Bname"/>
+  </property>
+  <property name="Bauthor" type="java.lang.String">
+   <column name="Bauthor"/>
+  </property>
+  <property name="Bphouse" type="java.lang.String">
+   <column name="Bphouse"/>
+  </property>
+  <property name="Buprice" type="float">
+   <column name="Buprice"/>
+  </property>
+ </class>
+</hibernate-mapping>

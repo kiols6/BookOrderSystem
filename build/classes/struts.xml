@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DOCTYPT定义必须添加，否则会报错 -->
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<package name="struts2" extends="struts-default,json-default">
+		<!-- 分角色登录系统，跳转至不同的主页面 -->
+		<action name="logincheckaction" class="userAction" method="loginCheck">
+			<result name="admin">/adminMainPage.jsp</result>
+			<result name="student">/stuMainPage.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<!-- 学生注册界面 -->
+		<action name="registeraction" class="userAction" method="registerCheck">
+			<result name="success">/index.jsp</result>
+			<result name="error">/register.jsp</result>
+		</action>
+		<!-- 学生信息更改界面 -->
+		<action name="updateaction" class="userAction" method="updateCheck">
+			<result name="success">/stuMainPage.jsp</result>
+			<result name="error">/infoPage.jsp</result>
+		</action>
+		<!-- 图书新增页面 -->
+		<action name="bookinsaction" class="bookAction" method="bookInsertCheck">
+			<result name="success">/adminMainPage.jsp</result>
+			<result name="error">/bookInsert.jsp</result>
+		</action>
+		<!-- 打印所有图书信息 -->
+        <action name="getAllBookAction" class="bookAction" method="getAllBook">
+            <result type="json"> </result>
+        </action>
+        <!-- 下架图书页面 -->
+        <action name="bookdelaction" class="bookAction" method="bookDeleteCheck">
+            <result name="success">/adminMainPage.jsp</result>
+			<result name="error">/bookDelete.jsp</result>
+        </action>
+        <!-- 学生端提交购买订单 -->
+        <action name="ordergenerateaction" class="orderAction" method="generateCheck">
+        	<result name="success">/stuMainPage.jsp</result>
+			<result name="error">/shopPage.jsp</result>
+        </action>
+        <!-- 管理员端查询订单 -->
+        <action name="getAllOrderaction" class="orderAction" method="getAllOrder">
+            <result type="json"> </result>
+        </action>
+	</package>
+</struts>

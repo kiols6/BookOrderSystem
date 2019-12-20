@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.ishang.pojo.Store" table="Store">
+  <id name="Bid" type="int">
+   <column name="Bid"/>
+   <generator class="assigned"/>
+  </id>
+  <property name="Bnum" type="int">
+   <column name="Bnum"/>
+  </property>
+ </class>
+</hibernate-mapping>
